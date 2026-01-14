@@ -1,37 +1,39 @@
-def dfs(graph, start):
+def dfs(graph, start, n):
     """
-    Perform Depth-First Search (DFS) on a graph starting from 'start'.
+    Perform Depth-First Search (DFS) using a boolean visited array.
 
     Approach:
-    1. Use a stack (or recursion) to explore as deep as possible before backtracking.
-    2. Keep track of visited nodes to avoid infinite loops.
-    3. Visit a node, mark it as visited, then recursively visit its neighbors.
+    1. Create a visited array of size 'n', initialized to False.
+       - False → node not visited
+       - True  → node already visited
+    2. Start DFS from the given start node.
+    3. Mark the node as visited before exploring its neighbors.
+    4. Recursively visit all unvisited neighbors.
     """
 
-    visited = set()  # Keeps track of already visited nodes
+    visited = [False] * n  # Step 1: Initialize all nodes as unvisited
 
     def dfs_helper(node):
-        # Step 1: Mark the current node as visited
-        visited.add(node)
-        print(node)  # Process the node (can be replaced with other logic)
+        # Step 2: Mark current node as visited
+        visited[node] = True
+        print(node)  # Process the node
 
-        # Step 2: Visit all unvisited neighbors
-        for neighbor in graph.get(node, []):
-            if neighbor not in visited:
+        # Step 3: Visit all unvisited neighbors
+        for neighbor in graph[node]:
+            if not visited[neighbor]:
                 dfs_helper(neighbor)
 
-    # Step 3: Start DFS from the given start node
+    # Step 4: Start DFS
     dfs_helper(start)
 
 
-# Example usage:
-graph = {
-    1: [2, 3],
-    2: [4, 5],
-    3: [6],
-    4: [],
-    5: [],
-    6: []
-}
+# Example usage (0-based indexing):
+graph = [
+    [1, 2],    # neighbors of node 0
+    [3, 4],    # neighbors of node 1
+    [],        # neighbors of node 2
+    [],        # neighbors of node 3
+    []         # neighbors of node 4
+]
 
-dfs(graph, 1)
+dfs(graph, start=0, n=5)
