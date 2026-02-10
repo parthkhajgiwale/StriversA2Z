@@ -1,35 +1,29 @@
-class Solution:
+#Brute Force Method O(n2)
+class Solution(object):
     def twoSum(self, nums, target):
         """
-        Problem Statement:
-        Given an array of integers nums and an integer target,
-        return the indices (0-indexed) of the two numbers such that
-        they add up to target.
-
-        Conditions:
-        - Each input has exactly one solution
-        - The same element cannot be used twice
-        - Return indices in increasing order
-
-        Example:
-        nums = [1, 6, 2, 10, 3]
-        target = 7
-        Output: [0, 1]
-        Explanation: nums[0] + nums[1] = 1 + 6 = 7
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
         """
+        result = []
+        for i in range (len(nums)):
+            for j in range(i+1,len(nums)):
+                sum = nums[i] + nums[j]
+                if sum == target:
+                    result.append(i)
+                    result.append(j)
+        return result
 
-        # Dictionary to store number and its index
-        seen = {}
+#Hash Map / Dictionary O(n)
+class Solution(object):
+    def twoSum(self, nums, target):
+        seen = {}  # value -> index
+#It scans the list once, and for each number checks whether the value needed to reach the target has already been seen; if yes, it immediately returns the indices of the matching pair.
+        for i, num in enumerate(nums):
+            complement = target - num
 
-        # Loop through the array
-        for i in range(len(nums)):
-            current = nums[i]
-            needed = target - current  # Value needed to reach target
+            if complement in seen:
+                return [seen[complement], i] #see[complement] -> index of complement term as dictionary is value : index term
 
-            # If needed value already exists, we found the pair
-            if needed in seen:
-                # Return indices in increasing order
-                return [seen[needed], i]
-
-            # Store the current number with its index
-            seen[current] = i
+            seen[num] = i
